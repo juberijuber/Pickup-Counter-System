@@ -13,6 +13,16 @@ Browser -> Vite/nginx (5173) -> API (3000) -> PostgreSQL
 Developer script -> POST /payments/webhook (HMAC-SHA256)
 ```
 
+<div align="center">
+
+## 📸 Application Screenshots
+
+<img src="Preview.png" width="32%" alt="Customer Interface" />
+<img src="Preview2.png" width="32%" alt="Payment Flow" />
+<img src="Preview3.png" width="32%" alt="Pickup and Order Status" />
+
+</div>
+
 ## Prerequisites
 
 - Docker and Docker Compose, **or**
