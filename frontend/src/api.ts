@@ -57,6 +57,20 @@ export function fetchOrder(id: string) {
   return request<{ order: Order }>(`/orders/${id}`);
 }
 
+export function claimPickup(orderId: string) {
+  return request<{ order: Order }>(`/orders/${orderId}/pickup-claim`, {
+    method: "POST",
+  });
+}
+
+export function simulatePayment(orderId: string, amountPaise?: number, status = "captured") {
+  return request<{ duplicate: boolean; order: Order }>(`/dev/simulate-payment`, {
+    method: "POST",
+    body: JSON.stringify({ orderId, amountPaise, status }),
+  });
+}
+
 export function formatRupees(paise: number): string {
   return `₹${(paise / 100).toFixed(2)}`;
 }
+

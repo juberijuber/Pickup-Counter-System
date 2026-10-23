@@ -79,6 +79,31 @@ export function createApp(pool: pg.Pool) {
     }
   });
 
+  app.post("/dev/simulate-payment", async (req, res, next) => {
+    try {
+      const { orderId, amountPaise, status = "captured" } = req.body as {
+        orderId: string;
+        amountPaise?: number;
+        status?: string;
+      };
+      let amount = amountPaise;
+      if (amount === undefined) {
+        const order = await getOrder(pool, orderId);
+        amount = order.totalPaise;
+      }
+      const payload = {
+        eventId: `evt_ui_${crypto.randomUUID()}`,
+        orderId,
+        amountPaise: amount,
+        status,
+      };
+      const result = await processWebhook(pool, payload);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+
   app.use((_req, res) => {
     res.status(404).json(errorBody("NOT_FOUND", "Route not found."));
   });
